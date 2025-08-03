@@ -11,10 +11,10 @@ const Hero = ({ onNavigate }: HeroProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const backgroundImages = [
-    '/src/assets/_______________5 (1).jpg',
-    '/src/assets/______-__________3 (1).jpg',
-    '/src/assets/_________7_____1 (1).jpg',
-    '/src/assets/background-163_7 (1).jpg'
+    '/images/image1.jpg',
+    '/images/image2.jpg',
+    '/images/image3.jpg',
+    '/images/image4.jpg'
   ];
 
   useEffect(() => {
