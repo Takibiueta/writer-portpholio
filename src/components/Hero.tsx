@@ -11,26 +11,27 @@ const Hero = ({ onNavigate }: HeroProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const backgroundImages = [
-    '/src/assets/_______________5 (1).jpg',
-    '/src/assets/______-__________3 (1).jpg',
-    '/src/assets/_________7_____1 (1).jpg',
-    '/src/assets/background-163_7 (1).jpg',
-    // Adding a 5th image placeholder - you can replace with actual path
-    'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1920'
+    'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    'https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    'https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    'https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1920'
   ];
 
   useEffect(() => {
-    const totalCycleDuration = 13000; // 3秒表示 + 5秒フェード + 5秒表示
+    const displayDuration = 3000; // 3秒表示
+    const fadeDuration = 5000; // 5秒フェード
+    const totalCycleDuration = displayDuration + fadeDuration; // 8秒サイクル
     
     const interval = setInterval(() => {
       setIsTransitioning(true);
       
-      // 5秒後に画像インデックスを更新
+      // フェード完了後に画像インデックスを更新
       setTimeout(() => {
         setCurrentImageIndex(nextImageIndex);
         setNextImageIndex((nextImageIndex + 1) % backgroundImages.length);
         setIsTransitioning(false);
-      }, 5000);
+      }, fadeDuration);
     }, totalCycleDuration);
 
     return () => clearInterval(interval);
