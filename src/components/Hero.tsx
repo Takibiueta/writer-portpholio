@@ -11,11 +11,10 @@ const Hero = ({ onNavigate }: HeroProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const backgroundImages = [
-    'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1920'
+    '/src/assets/_______________5 (1).jpg',
+    '/src/assets/______-__________3 (1).jpg',
+    '/src/assets/_________7_____1 (1).jpg',
+    '/src/assets/background-163_7 (1).jpg'
   ];
 
   useEffect(() => {
