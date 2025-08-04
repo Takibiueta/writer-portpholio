@@ -5,20 +5,44 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: hourglass animation, 2: logo fade in, 3: complete
+  const [phase, setPhase] = useState(1); // 1: hourglass animation, 2: logo fade in, 3: typewriter, 4: complete
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = 'Ko-ChilLium';
 
   useEffect(() => {
     const timers = [
       // Phase 1: Hourglass animation (0-2000ms)
       setTimeout(() => setPhase(2), 2000),
-      // Phase 2: Logo fade in (2000-2500ms)
-      setTimeout(() => setPhase(3), 2500),
-      // Phase 3: Complete loading (2500-3000ms)
-      setTimeout(() => onComplete(), 3000),
+      // Phase 2: Logo border fade in (2000-2300ms)
+      setTimeout(() => setPhase(3), 2300),
+      // Phase 3: Typewriter effect starts (2300ms)
+      // Phase 4: Complete loading (after typewriter finishes)
     ];
 
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
+
+  // Typewriter effect
+  useEffect(() => {
+    if (phase === 3) {
+      let currentIndex = 0;
+      const typewriterInterval = setInterval(() => {
+        if (currentIndex <= fullText.length) {
+          setDisplayedText(fullText.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(typewriterInterval);
+          // Complete loading after typewriter finishes
+          setTimeout(() => {
+            setPhase(4);
+            setTimeout(() => onComplete(), 500);
+          }, 500);
+        }
+      }, 100); // 100ms per character
+
+      return () => clearInterval(typewriterInterval);
+    }
+  }, [phase, fullText, onComplete]);
 
   return (
     <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
@@ -74,24 +98,44 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
       </div>
 
-      {/* Phase 2: Logo Fade In */}
+      {/* Phase 2 & 3: Logo with Border and Typewriter Effect */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
         phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider mb-4 text-center leading-tight cursive">
-          Ko-ChilLium
-        </h1>
-        <p className="text-lg md:text-xl text-charcoal/70 tracking-wide font-light">
-          Web Writer. Content Strategist.
-        </p>
+        {/* Logo Container with Border */}
+        <div className={`relative px-8 py-4 transition-all duration-300 ${
+          phase >= 2 ? 'border-2 border-charcoal/20' : 'border-2 border-transparent'
+        } rounded-lg`}>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight cursive">
+            {phase >= 3 ? (
+              <>
+                {displayedText}
+                <span className={`inline-block w-0.5 h-16 bg-charcoal ml-1 ${
+                  displayedText.length < fullText.length ? 'animate-pulse' : 'opacity-0'
+                }`}></span>
+              </>
+            ) : (
+              <span className="opacity-0">{fullText}</span>
+            )}
+          </h1>
+        </div>
         
-        {/* Decorative line */}
-        <div className="w-24 h-0.5 bg-charcoal/30 mt-8 opacity-50"></div>
-        
-        {/* Sauna-inspired subtitle */}
-        <p className="text-xs text-charcoal/50 tracking-widest mt-4 font-light">
-          SAUNA LOVER • CONTENT CREATOR
-        </p>
+        {/* Subtitle - appears after typewriter completes */}
+        <div className={`transition-all duration-500 delay-300 ${
+          phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+        }`}>
+          <p className="text-lg md:text-xl text-charcoal/70 tracking-wide font-light mt-4">
+            Web Writer. Content Strategist.
+          </p>
+          
+          {/* Decorative line */}
+          <div className="w-24 h-0.5 bg-charcoal/30 mt-8 opacity-50 mx-auto"></div>
+          
+          {/* Sauna-inspired subtitle */}
+          <p className="text-xs text-charcoal/50 tracking-widest mt-4 font-light">
+            SAUNA LOVER • CONTENT CREATOR
+          </p>
+        </div>
       </div>
 
       {/* Background texture overlay */}
