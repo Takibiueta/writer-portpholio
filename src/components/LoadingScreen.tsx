@@ -159,21 +159,6 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
         
         {/* Subtitle - appears after both typewriters complete */}
-        <div className={`transition-all duration-500 delay-300 ${
-          phase >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-        }`}>
-          <p className="text-lg md:text-xl text-charcoal/70 tracking-wide font-light mt-4">
-            Web Writer. Content Strategist.
-          </p>
-          
-          {/* Decorative line */}
-          <div className="w-24 h-0.5 bg-charcoal/30 mt-8 opacity-50 mx-auto"></div>
-          
-          {/* Sauna-inspired subtitle */}
-          <p className="text-xs text-charcoal/50 tracking-widest mt-4 font-light">
-            SAUNA LOVER • CONTENT CREATOR
-          </p>
-        </div>
       </div>
 
       {/* Background texture overlay */}
