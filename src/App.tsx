@@ -54,7 +54,7 @@ function App() {
     setTimeout(() => {
       setStartFade(true);
       setIsLoading(false);
-    }, 8000); // 3s pause + 5s fade
+    }, 15000); // Fallback: 15 seconds total
   }, []);
 
   const renderCurrentPage = () => {

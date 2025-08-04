@@ -56,10 +56,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           currentIndex++;
         } else {
           clearInterval(typewriterInterval);
-          // Complete loading after Misaki typewriter finishes
+          // Start words fade-in after 2 seconds
           setTimeout(() => {
             setPhase(5);
-          }, 500);
+          }, 2000);
         }
       }, 80); // Slightly faster for subtitle
 
@@ -72,23 +72,18 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     if (phase === 5) {
       const fadeInWord = (wordIndex: number) => {
         const startTime = Date.now();
-        const duration = 2000; // 2 seconds per word
+        const duration = 1000; // 1 second per word
         
         const animateOpacity = () => {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(elapsed / duration, 1);
           
-          // 1秒で30%, 2秒で100%
-          let opacity;
-          if (progress <= 0.5) {
-            opacity = progress * 60; // 0.5秒で30%
-          } else {
-            opacity = 30 + (progress - 0.5) * 140; // 残り1.5秒で70%追加
-          }
+          // 1秒で0%から100%まで線形に変化
+          const opacity = progress * 100;
           
           setWordOpacities(prev => {
             const newOpacities = [...prev];
-            newOpacities[wordIndex] = Math.min(opacity, 100);
+            newOpacities[wordIndex] = opacity;
             return newOpacities;
           });
           
@@ -97,13 +92,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           } else {
             // Next word or complete
             if (wordIndex < words.length - 1) {
-              fadeInWord(wordIndex + 1);
+              // 1秒間隔で次の単語を開始
+              setTimeout(() => fadeInWord(wordIndex + 1), 1000);
             } else {
-              // All words completed, start main site fade
+              // All words completed, wait 3 seconds then start main site fade
               setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 500);
+              }, 3000);
             }
           }
         };
@@ -208,16 +204,25 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           
           {/* Three words fade-in */}
           {phase >= 5 && (
-            <div className="mt-8 space-y-3">
-              {words.map((word, index) => (
-                <p 
-                  key={index}
-                  className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif text-center transition-none"
-                  style={{ opacity: wordOpacities[index] / 100 }}
-                >
-                  {word}
-                </p>
-              ))}
+            <div className="mt-8 flex justify-center space-x-8">
+              <p 
+                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                style={{ opacity: wordOpacities[0] / 100 }}
+              >
+                焦らず
+              </p>
+              <p 
+                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                style={{ opacity: wordOpacities[1] / 100 }}
+              >
+                比べず
+              </p>
+              <p 
+                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                style={{ opacity: wordOpacities[2] / 100 }}
+              >
+                美しく
+              </p>
             </div>
           )}
         </div>
