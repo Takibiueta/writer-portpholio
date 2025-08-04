@@ -38,8 +38,12 @@ const About = () => {
             
             <div className="grid md:grid-cols-3 gap-12">
               <div className="md:col-span-1">
-                <div className="w-full h-80 bg-gradient-to-br from-charcoal/10 to-charcoal/5 rounded-lg flex items-center justify-center">
-                  <span className="text-charcoal/30 text-sm tracking-wide">PHOTO</span>
+                <div className="w-full h-80 rounded-lg overflow-hidden">
+                  <img 
+                    src="/images/佐藤美咲.png" 
+                    alt="佐藤美咲のプロフィール写真"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               
