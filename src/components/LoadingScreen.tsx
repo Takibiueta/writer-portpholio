@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
 
 interface LoadingScreenProps {
   onComplete: () => void;
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: circle expansion, 2: logo, 3: main copy, 4: scroll indicator
+  const [phase, setPhase] = useState(1); // 1: hourglass animation, 2: logo fade in, 3: complete
 
   useEffect(() => {
     const timers = [
-      // Phase 1: Circle expansion (0-800ms)
-      setTimeout(() => setPhase(2), 800),
-      // Phase 2: Logo display (800-1400ms)
-      setTimeout(() => setPhase(3), 1400),
-      // Phase 3: Main copy (1400-2200ms)
-      setTimeout(() => setPhase(4), 2200),
-      // Phase 4: Complete loading (2200-3000ms)
+      // Phase 1: Hourglass animation (0-2000ms)
+      setTimeout(() => setPhase(2), 2000),
+      // Phase 2: Logo fade in (2000-2500ms)
+      setTimeout(() => setPhase(3), 2500),
+      // Phase 3: Complete loading (2500-3000ms)
       setTimeout(() => onComplete(), 3000),
     ];
 
@@ -24,27 +21,62 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-cream z-50 overflow-hidden">
-      {/* Phase 1: Circle Expansion */}
-      <div 
-        className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                   bg-cream rounded-full transition-all duration-800 ease-out ${
-          phase >= 2 ? 'w-screen h-screen scale-150' : 'w-4 h-4'
-        }`}
-      />
-
-      {/* Phase 2: Logo Display */}
-      <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-        phase === 2 ? 'opacity-100' : 'opacity-0'
+    <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
+      {/* Phase 1: Hourglass Animation */}
+      <div className={`transition-opacity duration-500 ${
+        phase === 1 ? 'opacity-100' : 'opacity-0'
       }`}>
-        <div className="w-16 h-16 border-2 border-charcoal rounded-full flex items-center justify-center">
-          <span className="text-charcoal font-light text-xl tracking-wider">W</span>
+        <div className="relative">
+          {/* Hourglass Container */}
+          <div className="w-16 h-24 relative">
+            {/* Top Glass */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-10 border-2 border-charcoal rounded-t-lg border-b-0">
+              {/* Top Sand */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-200 to-amber-100 rounded-t-lg transition-all duration-2000 ease-out"
+                   style={{
+                     height: phase >= 1 ? '10%' : '90%',
+                   }}>
+              </div>
+            </div>
+            
+            {/* Middle Neck */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-4 bg-charcoal/20">
+              {/* Falling Sand Stream */}
+              <div className={`absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-amber-200 transition-all duration-300 ${
+                phase >= 1 ? 'h-4 opacity-100' : 'h-0 opacity-0'
+              }`}></div>
+            </div>
+            
+            {/* Bottom Glass */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-10 border-2 border-charcoal rounded-b-lg border-t-0">
+              {/* Bottom Sand */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-amber-200 to-amber-100 rounded-b-lg transition-all duration-2000 ease-out"
+                   style={{
+                     height: phase >= 1 ? '90%' : '10%',
+                   }}>
+              </div>
+            </div>
+            
+            {/* Hourglass Frame */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-14 h-24 border-2 border-charcoal rounded-lg"
+                 style={{
+                   clipPath: 'polygon(0 0, 100% 0, 100% 40%, 60% 50%, 100% 60%, 100% 100%, 0 100%, 0 60%, 40% 50%, 0 40%)'
+                 }}>
+            </div>
+          </div>
+          
+          {/* Relaxing Text */}
+          <div className="mt-8 text-center">
+            <p className="text-charcoal/60 text-sm tracking-wide animate-pulse">
+              ととのう時間...
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Phase 3: Main Copy */}
+      {/* Phase 2: Logo Fade In */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
-        phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider mb-4 text-center leading-tight cursive">
           Ko-ChilLium
@@ -55,15 +87,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         
         {/* Decorative line */}
         <div className="w-24 h-0.5 bg-charcoal/30 mt-8 opacity-50"></div>
-      </div>
-
-      {/* Phase 4: Scroll Indicator */}
-      <div className={`absolute bottom-12 left-1/2 transform -translate-x-1/2 
-                     flex flex-col items-center transition-all duration-500 delay-300 ${
-        phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}>
-        <span className="text-xs text-charcoal/50 tracking-widest mb-2 font-light">SCROLL</span>
-        <ChevronDown className="w-4 h-4 text-charcoal/40 animate-bounce" />
+        
+        {/* Sauna-inspired subtitle */}
+        <p className="text-xs text-charcoal/50 tracking-widest mt-4 font-light">
+          SAUNA LOVER • CONTENT CREATOR
+        </p>
       </div>
 
       {/* Background texture overlay */}
