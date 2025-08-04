@@ -15,20 +15,22 @@ function App() {
   const [startFade, setStartFade] = useState(false);
 
   const handleLoadingComplete = () => {
-    // Start stepwise opacity animation: 20% every second for 5 seconds
-    let step = 0;
-    const opacityInterval = setInterval(() => {
-      step++;
-      setOpacity(step * 20);
-      
-      if (step >= 5) {
-        clearInterval(opacityInterval);
-        // Remove loading screen after animation completes
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 100);
-      }
-    }, 1000); // Every 1 second
+    // Wait 1 second, then start stepwise opacity animation: 20% every second for 5 seconds
+    setTimeout(() => {
+      let step = 0;
+      const opacityInterval = setInterval(() => {
+        step++;
+        setOpacity(step * 20);
+        
+        if (step >= 5) {
+          clearInterval(opacityInterval);
+          // Remove loading screen after animation completes
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 100);
+        }
+      }, 1000); // Every 1 second
+    }, 1000); // Wait 1 second before starting fade
   };
 
   // Convert opacity percentage to CSS opacity value
