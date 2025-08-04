@@ -15,29 +15,35 @@ function App() {
   const [startFade, setStartFade] = useState(false);
 
   const handleLoadingComplete = () => {
-    // Wait 1 second, then start stepwise opacity animation: 20% every second for 5 seconds
-    setTimeout(() => {
-      let step = 0;
-      const opacityInterval = setInterval(() => {
-        step++;
-        setOpacity(step * 20);
-        
-        if (step >= 5) {
-          clearInterval(opacityInterval);
-          // Remove loading screen after animation completes
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 100);
-        }
-      }, 1000); // Every 1 second
-    }, 1000); // Wait 1 second before starting fade
+    // Start smooth linear opacity animation: 0 to 100 over 5 seconds
+    const startTime = Date.now();
+    const duration = 5000; // 5 seconds
+    
+    const animateOpacity = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1); // 0 to 1
+      const currentOpacity = Math.round(progress * 100); // 0 to 100
+      
+      setOpacity(currentOpacity);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateOpacity);
+      } else {
+        // Remove loading screen after animation completes
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 100);
+      }
+    };
+    
+    requestAnimationFrame(animateOpacity);
   };
 
   // Convert opacity percentage to CSS opacity value
   const getOpacityStyle = () => {
     return {
       opacity: opacity / 100,
-      transition: 'opacity 1s ease-out'
+      transition: 'none' // Remove CSS transition since we're animating with JS
     };
   };
 
