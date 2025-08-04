@@ -12,6 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [opacity, setOpacity] = useState(0);
   const [currentPage, setCurrentPage] = useState('home');
+  const [startFade, setStartFade] = useState(false);
 
   const handleLoadingComplete = () => {
     // Start stepwise opacity animation: 20% every second for 5 seconds
@@ -38,10 +39,12 @@ function App() {
     };
   };
 
-  const renderCurrentPage = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      setStartFade(true);
       setIsLoading(false);
     }, 5000);
-  };
+  }, []);
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -59,7 +62,9 @@ function App() {
   return (
     <div className="min-h-screen bg-cream text-charcoal relative">
       {/* Main site content - always rendered but controlled by opacity */}
-      <div style={getOpacityStyle()}>
+      <div className={`transition-opacity duration-[5000ms] ease-out ${
+        startFade ? 'opacity-100' : 'opacity-0'
+      }`}>
         <Header currentPage={currentPage} onNavigate={setCurrentPage} />
         <main>
           {renderCurrentPage()}
