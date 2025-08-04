@@ -15,7 +15,10 @@ function App() {
   const [startFade, setStartFade] = useState(false);
 
   const handleLoadingComplete = () => {
-    // Start smooth linear opacity animation: 0 to 100 over 5 seconds
+    // Start fade immediately when called
+    setStartFade(true);
+    
+    // Start smooth linear opacity animation: 0 to 100 over exactly 5 seconds
     const startTime = Date.now();
     const duration = 5000; // 5 seconds
     
@@ -29,7 +32,7 @@ function App() {
       if (progress < 1) {
         requestAnimationFrame(animateOpacity);
       } else {
-        // Remove loading screen after animation completes
+        // Remove loading screen immediately after animation completes
         setTimeout(() => {
           setIsLoading(false);
         }, 100);
@@ -51,7 +54,7 @@ function App() {
     setTimeout(() => {
       setStartFade(true);
       setIsLoading(false);
-    }, 5000);
+    }, 8000); // 3s pause + 5s fade
   }, []);
 
   const renderCurrentPage = () => {

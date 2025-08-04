@@ -57,8 +57,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           // Complete loading after Misaki typewriter finishes
           setTimeout(() => {
             setPhase(5);
-            // Wait 1.5 seconds after typewriter completes, then start fade
-            setTimeout(() => onComplete(), 1500);
+            // Wait 3 seconds after typewriter completes, then start fade
+            setTimeout(() => onComplete(), 3000);
           }, 500);
         }
       }, 80); // Slightly faster for subtitle
