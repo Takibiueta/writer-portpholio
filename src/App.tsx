@@ -19,7 +19,7 @@ function App() {
     // Complete loading after 3 seconds
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 5000);
   };
 
   const renderCurrentPage = () => {
@@ -38,9 +38,6 @@ function App() {
   return (
     <div className="min-h-screen bg-cream text-charcoal relative">
       {/* Main site content - always rendered but controlled by opacity */}
-      <div className={`transition-opacity duration-[3000ms] ease-out ${
-        startFade ? 'opacity-100' : 'opacity-0'
-      }`}>
       <div className={`transition-opacity duration-[5000ms] ease-out ${
         startFade ? 'opacity-100' : 'opacity-0'
       }`}>
@@ -49,7 +46,6 @@ function App() {
           {renderCurrentPage()}
         </main>
         <Footer onNavigate={setCurrentPage} />
-      </div>
       </div>
       
       {/* Loading screen overlay */}
