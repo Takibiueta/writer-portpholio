@@ -171,7 +171,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
         {/* Logo Container with Border */}
-        <div className={`relative px-12 py-8 transition-all duration-300 ${
+        <div className={`relative px-12 py-16 transition-all duration-300 ${
           phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
         } rounded-2xl`}>
           {/* Ko-ChilLium with typewriter effect */}
@@ -203,28 +203,42 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           </p>
           
           {/* Three words fade-in */}
-          {phase >= 5 && (
-            <div className="mt-8 flex justify-center space-x-8">
-              <p 
-                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
-                style={{ opacity: wordOpacities[0] / 100 }}
-              >
-                焦らず
-              </p>
-              <p 
-                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
-                style={{ opacity: wordOpacities[1] / 100 }}
-              >
-                比べず
-              </p>
-              <p 
-                className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
-                style={{ opacity: wordOpacities[2] / 100 }}
-              >
-                美しく
-              </p>
-            </div>
-          )}
+          <div className="mt-8 flex justify-center space-x-8">
+            {phase >= 5 ? (
+              <>
+                <p 
+                  className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                  style={{ opacity: wordOpacities[0] / 100 }}
+                >
+                  焦らず
+                </p>
+                <p 
+                  className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                  style={{ opacity: wordOpacities[1] / 100 }}
+                >
+                  比べず
+                </p>
+                <p 
+                  className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif transition-none"
+                  style={{ opacity: wordOpacities[2] / 100 }}
+                >
+                  美しく
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-lg md:text-xl text-transparent tracking-wide font-serif">
+                  焦らず
+                </p>
+                <p className="text-lg md:text-xl text-transparent tracking-wide font-serif">
+                  比べず
+                </p>
+                <p className="text-lg md:text-xl text-transparent tracking-wide font-serif">
+                  美しく
+                </p>
+              </>
+            )}
+          </div>
         </div>
         
       </div>
