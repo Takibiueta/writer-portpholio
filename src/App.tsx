@@ -10,18 +10,11 @@ import Footer from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [showContent, setShowContent] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
-    // Start fade-in animation after loading completes
-    setTimeout(() => setShowContent(true), 200);
   };
-
-  if (isLoading) {
-    return <LoadingScreen onComplete={handleLoadingComplete} />;
-  }
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -37,14 +30,22 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-cream text-charcoal transition-opacity duration-3000 ease-out ${
-      showContent ? 'opacity-100' : 'opacity-0'
-    }`}>
-      <Header currentPage={currentPage} onNavigate={setCurrentPage} />
-      <main>
-        {renderCurrentPage()}
-      </main>
-      <Footer onNavigate={setCurrentPage} />
+    <div className="min-h-screen bg-cream text-charcoal relative">
+      {/* Main site content - always rendered but controlled by opacity */}
+      <div className={`transition-opacity duration-3000 ease-out ${
+        isLoading ? 'opacity-0' : 'opacity-100'
+      }`}>
+        <Header currentPage={currentPage} onNavigate={setCurrentPage} />
+        <main>
+          {renderCurrentPage()}
+        </main>
+        <Footer onNavigate={setCurrentPage} />
+      </div>
+      
+      {/* Loading screen overlay */}
+      {isLoading && (
+        <LoadingScreen onComplete={handleLoadingComplete} />
+      )}
     </div>
   );
 }
