@@ -10,10 +10,16 @@ import Footer from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [startFade, setStartFade] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
 
   const handleLoadingComplete = () => {
-    setIsLoading(false);
+    // Start the fade transition
+    setStartFade(true);
+    // Complete loading after 3 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
   };
 
   const renderCurrentPage = () => {
@@ -33,7 +39,7 @@ function App() {
     <div className="min-h-screen bg-cream text-charcoal relative">
       {/* Main site content - always rendered but controlled by opacity */}
       <div className={`transition-opacity duration-3000 ease-out ${
-        isLoading ? 'opacity-0' : 'opacity-100'
+        startFade ? 'opacity-100' : 'opacity-0'
       }`}>
         <Header currentPage={currentPage} onNavigate={setCurrentPage} />
         <main>
