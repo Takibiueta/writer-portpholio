@@ -103,9 +103,9 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
         {/* Logo Container with Border */}
-        <div className={`relative px-8 py-4 transition-all duration-300 ${
-          phase >= 2 ? 'border-2 border-charcoal/20' : 'border-2 border-transparent'
-        } rounded-lg`}>
+        <div className={`relative px-12 py-8 transition-all duration-300 ${
+          phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
+        } rounded-2xl`}>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight cursive">
             {phase >= 3 ? (
               <>
