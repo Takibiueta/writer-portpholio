@@ -10,10 +10,13 @@ import Footer from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
+    // Start fade-in animation after loading completes
+    setTimeout(() => setShowContent(true), 50);
   };
 
   if (isLoading) {
@@ -34,7 +37,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-cream text-charcoal">
+    <div className={`min-h-screen bg-cream text-charcoal transition-opacity duration-1000 ${
+      showContent ? 'opacity-100' : 'opacity-0'
+    }`}>
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       <main>
         {renderCurrentPage()}
