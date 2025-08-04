@@ -10,14 +10,35 @@ import Footer from './components/Footer';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [startFade, setStartFade] = useState(false);
+  const [opacity, setOpacity] = useState(0);
   const [currentPage, setCurrentPage] = useState('home');
 
   const handleLoadingComplete = () => {
-    // Start the fade transition
-    setStartFade(true);
-    // Complete loading after 3 seconds
-    setTimeout(() => {
+    // Start stepwise opacity animation: 20% every second for 5 seconds
+    let step = 0;
+    const opacityInterval = setInterval(() => {
+      step++;
+      setOpacity(step * 20);
+      
+      if (step >= 5) {
+        clearInterval(opacityInterval);
+        // Remove loading screen after animation completes
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 100);
+      }
+    }, 1000); // Every 1 second
+  };
+
+  // Convert opacity percentage to CSS opacity value
+  const getOpacityStyle = () => {
+    return {
+      opacity: opacity / 100,
+      transition: 'opacity 1s ease-out'
+    };
+  };
+
+  const renderCurrentPage = () => {
       setIsLoading(false);
     }, 5000);
   };
@@ -38,9 +59,7 @@ function App() {
   return (
     <div className="min-h-screen bg-cream text-charcoal relative">
       {/* Main site content - always rendered but controlled by opacity */}
-      <div className={`transition-opacity duration-[5000ms] ease-out ${
-        startFade ? 'opacity-100' : 'opacity-0'
-      }`}>
+      <div style={getOpacityStyle()}>
         <Header currentPage={currentPage} onNavigate={setCurrentPage} />
         <main>
           {renderCurrentPage()}
