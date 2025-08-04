@@ -20,12 +20,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
     <header className="fixed top-0 left-0 right-0 bg-cream/95 backdrop-blur-sm z-40 border-b border-charcoal/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div 
-            className="text-xl font-light tracking-wider cursor-pointer hover:opacity-70 transition-opacity"
-            onClick={() => onNavigate('home')}
-          >
-            WRITER
-          </div>
+          <div></div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">

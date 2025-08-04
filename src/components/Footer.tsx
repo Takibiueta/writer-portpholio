@@ -19,12 +19,6 @@ const Footer = ({ onNavigate }: FooterProps) => {
         <div className="grid md:grid-cols-3 gap-12">
           {/* Logo and Description */}
           <div className="md:col-span-1">
-            <div 
-              className="text-2xl font-light tracking-wider mb-4 cursor-pointer hover:opacity-70 transition-opacity"
-              onClick={() => onNavigate('home')}
-            >
-              WRITER
-            </div>
             <p className="text-charcoal/60 text-sm leading-relaxed">
               戦略的なコンテンツ制作で<br />
               ビジネスの成長をサポートします
