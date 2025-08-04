@@ -38,7 +38,7 @@ function App() {
   return (
     <div className="min-h-screen bg-cream text-charcoal relative">
       {/* Main site content - always rendered but controlled by opacity */}
-      <div className={`transition-opacity duration-3000 ease-out ${
+      <div className={`transition-opacity duration-[3000ms] ease-out ${
         startFade ? 'opacity-100' : 'opacity-0'
       }`}>
         <Header currentPage={currentPage} onNavigate={setCurrentPage} />
