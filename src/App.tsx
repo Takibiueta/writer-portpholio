@@ -16,7 +16,7 @@ function App() {
   const handleLoadingComplete = () => {
     setIsLoading(false);
     // Start fade-in animation after loading completes
-    setTimeout(() => setShowContent(true), 50);
+    setTimeout(() => setShowContent(true), 100);
   };
 
   if (isLoading) {
@@ -37,7 +37,7 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-cream text-charcoal transition-opacity duration-1000 ${
+    <div className={`min-h-screen bg-cream text-charcoal transition-opacity duration-2000 ease-out ${
       showContent ? 'opacity-100' : 'opacity-0'
     }`}>
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />

@@ -5,9 +5,11 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: hourglass animation, 2: logo fade in, 3: typewriter, 4: complete
-  const [displayedText, setDisplayedText] = useState('');
-  const fullText = 'Ko-ChilLium';
+  const [phase, setPhase] = useState(1); // 1: hourglass, 2: logo border, 3: Ko-ChilLium typewriter, 4: Misaki typewriter, 5: complete
+  const [displayedKoChillium, setDisplayedKoChillium] = useState('');
+  const [displayedMisaki, setDisplayedMisaki] = useState('');
+  const koChilliumText = 'Ko-ChilLium';
+  const misakiText = 'Misaki Sato';
 
   useEffect(() => {
     const timers = [
@@ -15,34 +17,54 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       setTimeout(() => setPhase(2), 2000),
       // Phase 2: Logo border fade in (2000-2300ms)
       setTimeout(() => setPhase(3), 2300),
-      // Phase 3: Typewriter effect starts (2300ms)
-      // Phase 4: Complete loading (after typewriter finishes)
+      // Phase 3: Ko-ChilLium typewriter starts (2300ms)
+      // Phase 4: Misaki typewriter starts (after Ko-ChilLium completes)
+      // Phase 5: Complete loading (after both typewriters finish)
     ];
 
     return () => timers.forEach(clearTimeout);
-  }, [onComplete]);
+  }, []);
 
-  // Typewriter effect
+  // Ko-ChilLium typewriter effect
   useEffect(() => {
     if (phase === 3) {
       let currentIndex = 0;
       const typewriterInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
+        if (currentIndex <= koChilliumText.length) {
+          setDisplayedKoChillium(koChilliumText.slice(0, currentIndex));
           currentIndex++;
         } else {
           clearInterval(typewriterInterval);
-          // Complete loading after typewriter finishes
-          setTimeout(() => {
-            setPhase(4);
-            setTimeout(() => onComplete(), 500);
-          }, 500);
+          // Start Misaki typewriter after Ko-ChilLium completes
+          setTimeout(() => setPhase(4), 300);
         }
       }, 100); // 100ms per character
 
       return () => clearInterval(typewriterInterval);
     }
-  }, [phase, fullText, onComplete]);
+  }, [phase, koChilliumText]);
+
+  // Misaki Sato typewriter effect
+  useEffect(() => {
+    if (phase === 4) {
+      let currentIndex = 0;
+      const typewriterInterval = setInterval(() => {
+        if (currentIndex <= misakiText.length) {
+          setDisplayedMisaki(misakiText.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(typewriterInterval);
+          // Complete loading after Misaki typewriter finishes
+          setTimeout(() => {
+            setPhase(5);
+            setTimeout(() => onComplete(), 800);
+          }, 500);
+        }
+      }, 80); // Slightly faster for subtitle
+
+      return () => clearInterval(typewriterInterval);
+    }
+  }, [phase, misakiText, onComplete]);
 
   return (
     <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
@@ -98,7 +120,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
       </div>
 
-      {/* Phase 2 & 3: Logo with Border and Typewriter Effect */}
+      {/* Phase 2-5: Logo with Border and Typewriter Effects */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
         phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
@@ -106,23 +128,38 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         <div className={`relative px-12 py-8 transition-all duration-300 ${
           phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
         } rounded-2xl`}>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight cursive">
+          {/* Ko-ChilLium with typewriter effect */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight cursive mb-2">
             {phase >= 3 ? (
               <>
-                {displayedText}
+                {displayedKoChillium}
                 <span className={`inline-block w-0.5 h-16 bg-charcoal ml-1 ${
-                  displayedText.length < fullText.length ? 'animate-pulse' : 'opacity-0'
+                  displayedKoChillium.length < koChilliumText.length ? 'animate-pulse' : 'opacity-0'
                 }`}></span>
               </>
             ) : (
-              <span className="opacity-0">{fullText}</span>
+              <span className="opacity-0">{koChilliumText}</span>
             )}
           </h1>
+          
+          {/* Misaki Sato with typewriter effect */}
+          <p className="text-xl md:text-2xl text-charcoal/70 tracking-wide font-serif text-center">
+            {phase >= 4 ? (
+              <>
+                {displayedMisaki}
+                <span className={`inline-block w-0.5 h-6 bg-charcoal/70 ml-1 ${
+                  displayedMisaki.length < misakiText.length ? 'animate-pulse' : 'opacity-0'
+                }`}></span>
+              </>
+            ) : (
+              <span className="opacity-0">{misakiText}</span>
+            )}
+          </p>
         </div>
         
-        {/* Subtitle - appears after typewriter completes */}
+        {/* Subtitle - appears after both typewriters complete */}
         <div className={`transition-all duration-500 delay-300 ${
-          phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          phase >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
         }`}>
           <p className="text-lg md:text-xl text-charcoal/70 tracking-wide font-light mt-4">
             Web Writer. Content Strategist.
