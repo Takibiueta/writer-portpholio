@@ -8,8 +8,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [phase, setPhase] = useState(1); // 1: hourglass, 2: logo border, 3: Ko-ChilLium typewriter, 4: Misaki typewriter, 5: complete
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
+  const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
   const koChilliumText = 'Ko-ChilLium';
   const misakiText = 'Misaki Sato';
+  const words = ['焦らず', '比べず', '美しく'];
 
   useEffect(() => {
     const timers = [
@@ -57,15 +59,62 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           // Complete loading after Misaki typewriter finishes
           setTimeout(() => {
             setPhase(5);
-            // Wait 3 seconds after typewriter completes, then start fade
-            setTimeout(() => onComplete(), 3000);
           }, 500);
         }
       }, 80); // Slightly faster for subtitle
 
       return () => clearInterval(typewriterInterval);
     }
-  }, [phase, misakiText, onComplete]);
+  }, [phase, misakiText]);
+
+  // Words fade-in effect
+  useEffect(() => {
+    if (phase === 5) {
+      const fadeInWord = (wordIndex: number) => {
+        const startTime = Date.now();
+        const duration = 2000; // 2 seconds per word
+        
+        const animateOpacity = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // 1秒で30%, 2秒で100%
+          let opacity;
+          if (progress <= 0.5) {
+            opacity = progress * 60; // 0.5秒で30%
+          } else {
+            opacity = 30 + (progress - 0.5) * 140; // 残り1.5秒で70%追加
+          }
+          
+          setWordOpacities(prev => {
+            const newOpacities = [...prev];
+            newOpacities[wordIndex] = Math.min(opacity, 100);
+            return newOpacities;
+          });
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateOpacity);
+          } else {
+            // Next word or complete
+            if (wordIndex < words.length - 1) {
+              fadeInWord(wordIndex + 1);
+            } else {
+              // All words completed, start main site fade
+              setTimeout(() => {
+                setPhase(6);
+                onComplete();
+              }, 500);
+            }
+          }
+        };
+        
+        requestAnimationFrame(animateOpacity);
+      };
+      
+      // Start with first word
+      fadeInWord(0);
+    }
+  }, [phase, words.length, onComplete]);
 
   return (
     <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
@@ -156,9 +205,23 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               <span className="opacity-0">{misakiText}</span>
             )}
           </p>
+          
+          {/* Three words fade-in */}
+          {phase >= 5 && (
+            <div className="mt-8 space-y-3">
+              {words.map((word, index) => (
+                <p 
+                  key={index}
+                  className="text-lg md:text-xl text-charcoal/60 tracking-wide font-serif text-center transition-none"
+                  style={{ opacity: wordOpacities[index] / 100 }}
+                >
+                  {word}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
         
-        {/* Subtitle - appears after both typewriters complete */}
       </div>
 
       {/* Background texture overlay */}
