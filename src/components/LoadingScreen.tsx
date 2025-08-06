@@ -16,14 +16,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   useEffect(() => {
     const timers = [
-      // Phase 1: Movie plays for 9 seconds
+      // Phase 1: Movie plays for 5 seconds
       setTimeout(() => {
         setMovieEnded(true);
         setPhase(2);
-      }, 9000),
+      }, 5000),
       // Phase 2: Logo border fade in (after movie ends)
-      setTimeout(() => setPhase(3), 9300),
-      // Phase 3: Ko-ChilLium typewriter starts (9300ms)
+      setTimeout(() => setPhase(3), 5300),
+      // Phase 3: Ko-ChilLium typewriter starts (5300ms)
       // Phase 4: Misaki typewriter starts (after Ko-ChilLium completes)
       // Phase 5: Complete loading (after both typewriters finish)
     ];
