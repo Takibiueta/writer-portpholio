@@ -1,0 +1,4 @@
+# This file ensures the videos directory is created
+# Place your opening movie files here:
+# - opening-movie.mp4
+# - opening-movie.webm (optional, for better browser compatibility)

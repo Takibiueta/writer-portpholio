@@ -5,25 +5,37 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(2); // 2: logo border, 3: Ko-ChilLium typewriter, 4: Misaki typewriter, 5: complete
+  const [phase, setPhase] = useState(1); // 1: movie, 2: logo border, 3: Ko-ChilLium typewriter, 4: Misaki typewriter, 5: complete
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
   const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
+  const [movieEnded, setMovieEnded] = useState(false);
   const koChilliumText = 'Ko-ChilLium';
   const misakiText = 'Misaki Sato';
   const words = ['焦らず', '比べず', '美しく'];
 
   useEffect(() => {
     const timers = [
-      // Phase 2: Logo border fade in (0-300ms)
-      setTimeout(() => setPhase(3), 300),
-      // Phase 3: Ko-ChilLium typewriter starts (300ms)
+      // Phase 1: Movie plays for 9 seconds
+      setTimeout(() => {
+        setMovieEnded(true);
+        setPhase(2);
+      }, 9000),
+      // Phase 2: Logo border fade in (after movie ends)
+      setTimeout(() => setPhase(3), 9300),
+      // Phase 3: Ko-ChilLium typewriter starts (9300ms)
       // Phase 4: Misaki typewriter starts (after Ko-ChilLium completes)
       // Phase 5: Complete loading (after both typewriters finish)
     ];
 
     return () => timers.forEach(clearTimeout);
   }, []);
+
+  // Handle movie end event
+  const handleMovieEnd = () => {
+    setMovieEnded(true);
+    setPhase(2);
+  };
 
   // Ko-ChilLium typewriter effect
   useEffect(() => {
@@ -112,9 +124,29 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   return (
     <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
+      {/* Phase 1: Opening Movie */}
+      {phase === 1 && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black">
+          <video
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            playsInline
+            onEnded={handleMovieEnd}
+          >
+            <source src="/videos/opening-movie.mp4" type="video/mp4" />
+            <source src="/videos/opening-movie.webm" type="video/webm" />
+            {/* Fallback for browsers that don't support video */}
+            <div className="flex items-center justify-center h-full">
+              <p className="text-white text-xl">Loading...</p>
+            </div>
+          </video>
+        </div>
+      )}
+
       {/* Phase 2-5: Logo with Border and Typewriter Effects */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
-        phase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        phase >= 2 && movieEnded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
         {/* Logo Container with Border */}
         <div className={`relative px-12 py-16 transition-all duration-300 ${
