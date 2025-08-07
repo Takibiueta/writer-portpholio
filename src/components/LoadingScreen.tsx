@@ -128,7 +128,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 5000); // 3秒から5秒に延長して「美しく」をしっかり表示
+              }, 8000); // 5秒から8秒に延長して「美しく」をより長く表示
             }
           }
         };
