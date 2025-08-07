@@ -124,12 +124,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               const nextWordTimer = setTimeout(() => fadeInWord(wordIndex + 1), 1000);
               timerIds.push(nextWordTimer);
             } else {
-              // All words completed, wait 2 seconds then start main site fade
-              const completeTimer = setTimeout(() => {
-                setPhase(6);
-                onComplete();
-              }, 2500); // 「美しく」フェード完了後2.5秒待機
-              timerIds.push(completeTimer);
+              // 「美しく」のフェード完了を待ってから2.5秒待機
+              setTimeout(() => {
+                const completeTimer = setTimeout(() => {
+                  setPhase(6);
+                  onComplete();
+                }, 2500);
+                timerIds.push(completeTimer);
+              }, 1000); // 「美しく」のフェード完了(1秒)を待つ
             }
           }
         };
