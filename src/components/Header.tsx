@@ -32,7 +32,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
                   currentPage === item.page 
                     ? 'text-charcoal' 
                     : 'text-charcoal/60 hover:text-charcoal'
-                }`}
+                } font-serif`}
               >
                 {item.name}
                 {currentPage === item.page && (
@@ -70,7 +70,7 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
                     currentPage === item.page 
                       ? 'text-charcoal font-medium' 
                       : 'text-charcoal/60 hover:text-charcoal'
-                  }`}
+                  } font-serif`}
                 >
                   {item.name}
                 </button>
