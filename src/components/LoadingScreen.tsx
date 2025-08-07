@@ -6,6 +6,7 @@ interface LoadingScreenProps {
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [phase, setPhase] = useState(1); // 1: movie, 2: white screen, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: complete
+  const [fadeOverlayOpacity, setFadeOverlayOpacity] = useState(0);
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
   const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
@@ -16,16 +17,34 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   useEffect(() => {
     const timers = [
-      // Phase 1: Movie plays for 5 seconds, then white screen
+      // Phase 1: Movie plays, start fade overlay at 4 seconds
+      setTimeout(() => {
+        // Start fade overlay animation
+        const startTime = Date.now();
+        const duration = 1500; // 1.5 seconds fade
+        
+        const animateFade = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          setFadeOverlayOpacity(progress * 100);
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateFade);
+          }
+        };
+        
+        requestAnimationFrame(animateFade);
+      }, 4000),
+      // Phase 2: Movie ends, transition to white screen
       setTimeout(() => {
         setMovieEnded(true);
         setPhase(2);
       }, 5000),
-      // Phase 2: White screen for 1 second
+      // Phase 3: White screen for 1 second
       setTimeout(() => setPhase(3), 6000),
-      // Phase 3: pinyonScript typewriter starts (6000ms)
-      // Phase 4: Misaki typewriter starts (after pinyonScript completes)
-      // Phase 5: Complete loading (after both typewriters finish)
+      // Phase 4: Ko-ChilLium typewriter starts (6000ms)
+      // Phase 5: Misaki typewriter starts (after Ko-ChilLium completes)
+      // Phase 6: Complete loading (after both typewriters finish)
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -126,7 +145,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
       {/* Phase 1: Opening Movie */}
       {phase === 1 && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black">
+        <div className="absolute inset-0 flex items-center justify-center bg-black relative">
           <video
             className="w-full h-full object-cover"
             autoPlay
@@ -141,6 +160,13 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               <p className="text-white text-xl">Loading...</p>
             </div>
           </video>
+          {/* Fade overlay for seamless transition */}
+          <div 
+            className="absolute inset-0 bg-white pointer-events-none transition-none"
+            style={{ 
+              opacity: fadeOverlayOpacity / 100
+            }}
+          />
         </div>
       )}
 
