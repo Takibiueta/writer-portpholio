@@ -9,6 +9,12 @@ const FontTest = () => {
       reliability: '✅ 100%'
     },
     {
+      name: 'Pinyon Script（新しく追加）',
+      className: 'pinyon-script',
+      css: 'font-family: "Pinyon Script", cursive',
+      reliability: '✅ 99%'
+    },
+    {
       name: 'Google Fonts（確実）',
       className: 'font-japanese-sans',
       css: 'font-family: "Noto Sans JP", sans-serif',
