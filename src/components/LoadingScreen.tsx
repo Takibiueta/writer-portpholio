@@ -128,7 +128,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               const completeTimer = setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 2000); // 「美しく」フェード完了後2秒待機
+              }, 2500); // 「美しく」フェード完了後2.5秒待機
               timerIds.push(completeTimer);
             }
           }
