@@ -7,6 +7,7 @@ import Works from './components/Works';
 import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import FontTest from './components/FontTest';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -65,6 +66,8 @@ function App() {
         return <Works />;
       case 'contact':
         return <Contact />;
+      case 'font-test':
+        return <FontTest />;
       default:
         return <Hero onNavigate={setCurrentPage} />;
     }
