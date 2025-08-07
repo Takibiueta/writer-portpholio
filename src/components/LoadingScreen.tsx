@@ -124,11 +124,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               // 1秒間隔で次の単語を開始
               setTimeout(() => fadeInWord(wordIndex + 1), 1000);
             } else {
-              // All words completed, wait 3 seconds then start main site fade
+              // All words completed, wait 8 seconds then start main site fade
               setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 8000); // 5秒から8秒に延長して「美しく」をより長く表示
+              }, 8000); // 「美しく」フェード完了後8秒待機
             }
           }
         };
