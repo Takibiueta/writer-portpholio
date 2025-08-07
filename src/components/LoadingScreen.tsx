@@ -5,12 +5,12 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: movie, 2: logo border, 3: Ko-ChilLium typewriter, 4: Misaki typewriter, 5: complete
+  const [phase, setPhase] = useState(1); // 1: movie, 2: logo border, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: complete
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
   const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
   const [movieEnded, setMovieEnded] = useState(false);
-  const koChilliumText = 'Ko-ChilLium';
+  const koChilliumText = 'pinyonScript';
   const misakiText = 'Misaki Sato';
   const words = ['焦らず', '比べず', '美しく'];
 
@@ -23,8 +23,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       }, 5000),
       // Phase 2: Logo border fade in (after movie ends)
       setTimeout(() => setPhase(3), 5300),
-      // Phase 3: Ko-ChilLium typewriter starts (5300ms)
-      // Phase 4: Misaki typewriter starts (after Ko-ChilLium completes)
+      // Phase 3: pinyonScript typewriter starts (5300ms)
+      // Phase 4: Misaki typewriter starts (after pinyonScript completes)
       // Phase 5: Complete loading (after both typewriters finish)
     ];
 
@@ -37,7 +37,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     setPhase(2);
   };
 
-  // Ko-ChilLium typewriter effect
+  // pinyonScript typewriter effect
   useEffect(() => {
     if (phase === 3) {
       let currentIndex = 0;
@@ -47,7 +47,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           currentIndex++;
         } else {
           clearInterval(typewriterInterval);
-          // Start Misaki typewriter after Ko-ChilLium completes
+          // Start Misaki typewriter after pinyonScript completes
           setTimeout(() => setPhase(4), 300);
         }
       }, 100); // 100ms per character
@@ -152,7 +152,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         <div className={`relative px-12 py-16 transition-all duration-300 ${
           phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
         } rounded-2xl`}>
-          {/* Ko-ChilLium with typewriter effect */}
+          {/* pinyonScript with typewriter effect */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight mb-2 pinyon-script">
             {phase >= 3 ? (
               <>
