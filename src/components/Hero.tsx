@@ -98,7 +98,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
         
         {/* Content */}
         <div className="text-center max-w-4xl mx-auto relative z-10 bg-cream/90 backdrop-blur-sm rounded-2xl p-12">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider mb-6 leading-tight cursive text-charcoal">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider mb-6 leading-tight pinyon-script text-charcoal">
             Ko-ChilLium
           </h1>
           <p className="text-xl md:text-2xl text-charcoal/70 tracking-wide font-serif">

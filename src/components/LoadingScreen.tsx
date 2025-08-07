@@ -153,7 +153,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
         } rounded-2xl`}>
           {/* Ko-ChilLium with typewriter effect */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight cursive mb-2">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight pinyon-script mb-2">
             {phase >= 3 ? (
               <>
                 {displayedKoChillium}

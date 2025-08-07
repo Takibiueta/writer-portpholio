@@ -49,7 +49,7 @@ const About = () => {
               
               <div className="md:col-span-2 space-y-6">
                 <div>
-                  <h3 className="text-xl font-medium mb-3 cursive">Ko-ChilLium</h3>
+                  <h3 className="text-xl font-medium mb-3 pinyon-script">Ko-ChilLium</h3>
                   <p className="text-charcoal/70 leading-relaxed">
                     フリーランスのウェブライターとして5年間活動。企業のオウンドメディア運営から
                     SEOコンテンツ制作、コピーライティングまで幅広く手がけています。
