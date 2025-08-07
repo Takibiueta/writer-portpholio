@@ -5,7 +5,7 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: movie, 2: white screen, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: complete
+  const [phase, setPhase] = useState(1); // 1: movie, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: words fade-in
   const [fadeOverlayOpacity, setFadeOverlayOpacity] = useState(0);
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
@@ -16,44 +16,41 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const words = ['焦らず', '比べず', '美しく'];
 
   useEffect(() => {
-    const timers = [
-      // Phase 1: Movie plays, start fade overlay at 4 seconds
-      setTimeout(() => {
-        // Start fade overlay animation
-        const startTime = Date.now();
-        const duration = 1500; // 1.5 seconds fade
-        
-        const animateFade = () => {
-          const elapsed = Date.now() - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          setFadeOverlayOpacity(progress * 100);
-          
-          if (progress < 1) {
-            requestAnimationFrame(animateFade);
-          }
-        };
-        
-        requestAnimationFrame(animateFade);
-      }, 4000),
-      // Phase 2: Movie ends, transition to white screen
-      setTimeout(() => {
-        setMovieEnded(true);
-        setPhase(2);
-      }, 5000),
-      // Phase 3: White screen for 1 second
-      setTimeout(() => setPhase(3), 6000),
-      // Phase 4: Ko-ChilLium typewriter starts (6000ms)
-      // Phase 5: Misaki typewriter starts (after Ko-ChilLium completes)
-      // Phase 6: Complete loading (after both typewriters finish)
-    ];
+    // 安全装置: 7秒後に強制的にhandleMovieEndを呼び出し
+    const safetyTimer = setTimeout(() => {
+      if (!movieEnded) {
+        handleMovieEnd();
+      }
+    }, 7000);
 
-    return () => timers.forEach(clearTimeout);
+    return () => clearTimeout(safetyTimer);
   }, []);
 
   // Handle movie end event
   const handleMovieEnd = () => {
+    // 複数回呼び出しを防ぐガード節
+    if (movieEnded) return;
+    
     setMovieEnded(true);
-    setPhase(2);
+    
+    // フェードオーバーレイアニメーションを開始
+    const startTime = Date.now();
+    const duration = 1500; // 1.5 seconds fade
+    
+    const animateFade = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setFadeOverlayOpacity(progress * 100);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateFade);
+      } else {
+        // フェード完了後、直接タイピング開始
+        setTimeout(() => setPhase(3), 500);
+      }
+    };
+    
+    requestAnimationFrame(animateFade);
   };
 
   // pinyonScript typewriter effect
@@ -99,6 +96,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   // Words fade-in effect
   useEffect(() => {
     if (phase === 5) {
+      const timerIds: NodeJS.Timeout[] = [];
+      
       const fadeInWord = (wordIndex: number) => {
         const startTime = Date.now();
         const duration = 1000; // 1 second per word
@@ -122,13 +121,15 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             // Next word or complete
             if (wordIndex < words.length - 1) {
               // 1秒間隔で次の単語を開始
-              setTimeout(() => fadeInWord(wordIndex + 1), 1000);
+              const nextWordTimer = setTimeout(() => fadeInWord(wordIndex + 1), 1000);
+              timerIds.push(nextWordTimer);
             } else {
               // All words completed, wait 8 seconds then start main site fade
-              setTimeout(() => {
+              const completeTimer = setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 10720); // 「美しく」フェード完了後10.72秒待機（26秒でサイト切り替え）
+              }, 10720); // 「美しく」フェード完了後10.72秒待機
+              timerIds.push(completeTimer);
             }
           }
         };
@@ -138,6 +139,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       
       // Start with first word
       fadeInWord(0);
+      
+      // クリーンアップ関数
+      return () => {
+        timerIds.forEach(timerId => clearTimeout(timerId));
+      };
     }
   }, [phase, words.length, onComplete]);
 
@@ -170,12 +176,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
       )}
 
-      {/* Phase 2: White Screen */}
-      {phase === 2 && (
-        <div className="absolute inset-0 bg-white"></div>
-      )}
-
-      {/* Phase 3-5: Logo and Typewriter Effects (no background/border) */}
+      {/* Phase 3-5: Logo and Typewriter Effects */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
         phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
