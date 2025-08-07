@@ -5,7 +5,7 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState(1); // 1: movie, 2: logo border, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: complete
+  const [phase, setPhase] = useState(1); // 1: movie, 2: white screen, 3: pinyonScript typewriter, 4: Misaki typewriter, 5: complete
   const [displayedKoChillium, setDisplayedKoChillium] = useState('');
   const [displayedMisaki, setDisplayedMisaki] = useState('');
   const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
@@ -16,14 +16,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   useEffect(() => {
     const timers = [
-      // Phase 1: Movie plays for 5 seconds
+      // Phase 1: Movie plays for 5 seconds, then white screen
       setTimeout(() => {
         setMovieEnded(true);
         setPhase(2);
       }, 5000),
-      // Phase 2: Logo border fade in (after movie ends)
-      setTimeout(() => setPhase(3), 5300),
-      // Phase 3: pinyonScript typewriter starts (5300ms)
+      // Phase 2: White screen for 1 second
+      setTimeout(() => setPhase(3), 6000),
+      // Phase 3: pinyonScript typewriter starts (6000ms)
       // Phase 4: Misaki typewriter starts (after pinyonScript completes)
       // Phase 5: Complete loading (after both typewriters finish)
     ];
@@ -144,14 +144,17 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         </div>
       )}
 
-      {/* Phase 2-5: Logo with Border and Typewriter Effects */}
+      {/* Phase 2: White Screen */}
+      {phase === 2 && (
+        <div className="absolute inset-0 bg-white"></div>
+      )}
+
+      {/* Phase 3-5: Logo and Typewriter Effects (no background/border) */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
-        phase >= 2 && movieEnded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}>
-        {/* Logo Container with Border */}
-        <div className={`relative px-12 py-16 transition-all duration-300 ${
-          phase >= 2 ? 'bg-cream/90 backdrop-blur-sm border border-charcoal/10' : 'bg-transparent border border-transparent'
-        } rounded-2xl`}>
+        {/* Logo Container (no background/border) */}
+        <div className="relative px-12 py-16">
           {/* pinyonScript with typewriter effect */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wider text-center leading-tight mb-2 pinyon-script">
             {phase >= 3 ? (
