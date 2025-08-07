@@ -16,15 +16,15 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const words = ['焦らず', '比べず', '美しく'];
 
   useEffect(() => {
-    // 安全装置: 7秒後に強制的にhandleMovieEndを呼び出し
+    // 安全装置: 6秒後に強制的にhandleMovieEndを呼び出し
     const safetyTimer = setTimeout(() => {
       if (!movieEnded) {
         handleMovieEnd();
       }
-    }, 7000);
+    }, 6000);
 
     return () => clearTimeout(safetyTimer);
-  }, []);
+  }, [movieEnded]);
 
   // Handle movie end event
   const handleMovieEnd = () => {
@@ -82,10 +82,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           currentIndex++;
         } else {
           clearInterval(typewriterInterval);
-          // Start words fade-in after 2 seconds
+          // Start words fade-in after 0.5 seconds
           setTimeout(() => {
             setPhase(5);
-          }, 2000);
+          }, 500);
         }
       }, 80); // Slightly faster for subtitle
 
@@ -124,11 +124,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               const nextWordTimer = setTimeout(() => fadeInWord(wordIndex + 1), 1000);
               timerIds.push(nextWordTimer);
             } else {
-              // All words completed, wait 8 seconds then start main site fade
+              // All words completed, wait 2 seconds then start main site fade
               const completeTimer = setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 10720); // 「美しく」フェード完了後10.72秒待機
+              }, 2000); // 「美しく」フェード完了後2秒待機
               timerIds.push(completeTimer);
             }
           }
