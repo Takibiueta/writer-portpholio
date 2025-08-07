@@ -128,7 +128,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
               setTimeout(() => {
                 setPhase(6);
                 onComplete();
-              }, 8000); // 「美しく」フェード完了後8秒待機
+              }, 10720); // 「美しく」フェード完了後10.72秒待機（26秒でサイト切り替え）
             }
           }
         };
