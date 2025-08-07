@@ -13,6 +13,8 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         serif: ['Georgia', 'Times New Roman', 'serif'],
+        'japanese-sans': ['Noto Sans JP', 'sans-serif'],
+        'japanese-serif': ['Noto Serif JP', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
