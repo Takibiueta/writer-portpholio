@@ -12,7 +12,8 @@ const FontTest = () => {
       name: 'Pinyon Script（新しく追加）',
       className: 'pinyon-script',
       css: 'font-family: "Pinyon Script", cursive',
-      reliability: '✅ 99%'
+      reliability: '✅ 99%',
+      debug: true
     },
     {
       name: 'Google Fonts（確実）',
