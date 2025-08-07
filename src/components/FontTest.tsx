@@ -21,6 +21,27 @@ const FontTest = () => {
       reliability: '✅ 99%'
     },
     {
+      name: '游ゴシック（Windows/Mac標準）',
+      className: '',
+      css: 'font-family: "Yu Gothic", "游ゴシック", sans-serif',
+      reliability: '⚠️ OS依存',
+      style: { fontFamily: '"Yu Gothic", "游ゴシック", sans-serif' }
+    },
+    {
+      name: 'Times New Roman（英語向け）',
+      className: '',
+      css: 'font-family: "Times New Roman", serif',
+      reliability: '✅ 95%',
+      style: { fontFamily: '"Times New Roman", serif' }
+    },
+    {
+      name: 'Arial（英語向け）',
+      className: '',
+      css: 'font-family: "Arial", sans-serif',
+      reliability: '✅ 95%',
+      style: { fontFamily: '"Arial", sans-serif' }
+    },
+    {
       name: 'ヒラギノ角ゴ（Mac限定）',
       className: '',
       css: 'font-family: "Hiragino Kaku Gothic Pro", sans-serif',
