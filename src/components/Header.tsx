@@ -14,7 +14,6 @@ const Header = ({ currentPage, onNavigate }: HeaderProps) => {
     { name: 'ABOUT', page: 'about' },
     { name: 'WORKS', page: 'works' },
     { name: 'CONTACT', page: 'contact' },
-    { name: 'FONT TEST', page: 'font-test' },
   ];
 
   return (
