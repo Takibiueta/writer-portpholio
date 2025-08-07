@@ -16,6 +16,30 @@ const FontTest = () => {
       debug: true
     },
     {
+      name: 'Great Vibes（エレガント）',
+      className: 'great-vibes',
+      css: 'font-family: "Great Vibes", cursive',
+      reliability: '✅ 99%'
+    },
+    {
+      name: 'Allura（流れるような）',
+      className: 'allura',
+      css: 'font-family: "Allura", cursive',
+      reliability: '✅ 99%'
+    },
+    {
+      name: 'Pacifico（カジュアル）',
+      className: 'pacifico',
+      css: 'font-family: "Pacifico", cursive',
+      reliability: '✅ 99%'
+    },
+    {
+      name: 'Satisfy（手書き風）',
+      className: 'satisfy',
+      css: 'font-family: "Satisfy", cursive',
+      reliability: '✅ 99%'
+    },
+    {
       name: 'Google Fonts（確実）',
       className: 'font-japanese-sans',
       css: 'font-family: "Noto Sans JP", sans-serif',
