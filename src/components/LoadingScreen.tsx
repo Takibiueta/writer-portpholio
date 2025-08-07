@@ -10,7 +10,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [displayedMisaki, setDisplayedMisaki] = useState('');
   const [wordOpacities, setWordOpacities] = useState([0, 0, 0]); // 焦らず、比べず、美しく
   const [movieEnded, setMovieEnded] = useState(false);
-  const koChilliumText = 'pinyonScript';
+  const koChilliumText = 'Ko-ChilLium';
   const misakiText = 'Misaki Sato';
   const words = ['焦らず', '比べず', '美しく'];
 
