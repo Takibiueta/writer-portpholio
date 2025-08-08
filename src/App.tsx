@@ -15,46 +15,51 @@ function App() {
   const [startFade, setStartFade] = useState(false);
 
   const handleLoadingComplete = () => {
-    // Start fade immediately when called
+    // ローディング終了時にすぐにフェードを開始
     setStartFade(true);
-    
-    // Start smooth linear opacity animation: 0 to 100 over exactly 5 seconds
+
+    // 5秒かけて opacity を 0 から 100 に滑らかに上げる
     const startTime = Date.now();
     const duration = 5000; // 5 seconds
-    
+
     const animateOpacity = () => {
       const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1); // 0 to 1
-      const currentOpacity = Math.round(progress * 100); // 0 to 100
-      
+      const progress = Math.min(elapsed / duration, 1); // 0 〜 1
+      const currentOpacity = Math.round(progress * 100); // 0 〜 100
+
       setOpacity(currentOpacity);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateOpacity);
       } else {
-        // Remove loading screen immediately after animation completes
+        // アニメーション完了後、0.1秒後にローディング画面を非表示
         setTimeout(() => {
           setIsLoading(false);
         }, 100);
       }
     };
-    
+
     requestAnimationFrame(animateOpacity);
   };
 
-  // Convert opacity percentage to CSS opacity value
+  // opacity の値を CSS 用の値に変換
   const getOpacityStyle = () => {
     return {
       opacity: opacity / 100,
-      transition: 'none' // Remove CSS transition since we're animating with JS
+      transition: 'none', // JS アニメーションを使うので CSS の transition は無効化
     };
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    // フェイルセーフ: 20秒経過したら強制的にローディング画面を終了
+    const fallbackId = setTimeout(() => {
       setStartFade(true);
       setIsLoading(false);
-    }, 15000); // Fallback: 15 seconds total
+    }, 20000); // Fallback: 20 seconds total
+
+    return () => {
+      clearTimeout(fallbackId);
+    };
   }, []);
 
   const renderCurrentPage = () => {
@@ -72,21 +77,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-cream text-charcoal relative">
-      {/* Main site content - always rendered but controlled by opacity */}
-      <div className={`transition-opacity duration-[5000ms] ease-out ${
-        startFade ? 'opacity-100' : 'opacity-0'
-      }`}>
+      {/* メインサイトの内容 - opacity で表示／非表示を制御 */}
+      <div
+        className={`transition-opacity duration-[5000ms] ease-out ${
+          startFade ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <Header currentPage={currentPage} onNavigate={setCurrentPage} />
-        <main>
-          {renderCurrentPage()}
-        </main>
+        <main>{renderCurrentPage()}</main>
         <Footer onNavigate={setCurrentPage} />
       </div>
-      
-      {/* Loading screen overlay */}
-      {isLoading && (
-        <LoadingScreen onComplete={handleLoadingComplete} />
-      )}
+
+      {/* ローディング画面のオーバーレイ */}
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
     </div>
   );
 }
