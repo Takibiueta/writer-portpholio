@@ -41,6 +41,8 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
   const safeCallComplete = () => {
     if (completedRef.current) return;
+    // Clear any pending timers/animations before finishing
+    clearAllTimers();
     completedRef.current = true;
     setPhase(6);
     onCompleteRef.current?.();
@@ -191,7 +193,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center">
+    <div
+      className="fixed inset-0 bg-cream z-50 overflow-hidden flex items-center justify-center cursor-pointer"
+      onClick={safeCallComplete} // クリックでスキップ
+    >
       {/* Phase 1: Opening Movie */}
       {phase === 1 && (
         <div className="absolute inset-0 flex items-center justify-center bg-black relative">
@@ -301,6 +306,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Skip hint */}
+      <div className="absolute bottom-8 right-8 text-charcoal/30 text-sm tracking-wide">
+        Click to skip
       </div>
 
       {/* Background texture overlay */}
