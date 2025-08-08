@@ -129,7 +129,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
                 const completeTimer = setTimeout(() => {
                   setPhase(6);
                   onComplete();
-                }, 2500);
+                }, 1500);
                 timerIds.push(completeTimer);
               }, 1000); // 「美しく」のフェード完了(1秒)を待つ
             }
