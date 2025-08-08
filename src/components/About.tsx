@@ -40,7 +40,7 @@ const About = () => {
               <div className="md:col-span-1">
                 <div className="w-full h-80 rounded-lg overflow-hidden">
                   <img 
-                    src="/images/佐藤美咲.png" 
+                    src="/images/misaki-profile-new.png" 
                     alt="佐藤美咲のプロフィール写真"
                     className="w-full h-full object-cover"
                   />
