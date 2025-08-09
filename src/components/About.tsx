@@ -42,7 +42,7 @@ const About = () => {
               <div className="md:col-span-1">
                 <div className="w-full h-80 rounded-lg overflow-hidden">
                   <img
-                    src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800"
+                    src="/images/misaki-sato.png"
                     alt="佐藤美咲のプロフィール写真"
                     className="w-full h-full object-cover"
                   />
