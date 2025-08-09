@@ -75,7 +75,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
 
         <div className="mt-12 pt-8 border-t border-charcoal/10 text-center">
           <p className="text-xs text-charcoal/40 tracking-widest">
-            © 2024 KO-CHILLIUM. ALL RIGHTS RESERVED.
+            © 2024 Ko-ChilLium. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>

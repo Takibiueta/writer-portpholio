@@ -49,7 +49,7 @@ const About = () => {
               
               <div className="md:col-span-2 space-y-6">
                 <div>
-                  <h3 className="text-xl font-medium mb-3 pinyon-script">pinyonScript</h3>
+                  <h3 className="text-xl font-medium mb-3">佐藤美咲（Misaki Sato）</h3>
                   <p className="text-charcoal/70 leading-relaxed">
                     フリーランスのウェブライターとして5年間活動。企業のオウンドメディア運営から
                     SEOコンテンツ制作、コピーライティングまで幅広く手がけています。
@@ -127,7 +127,7 @@ const About = () => {
                 クライアントのビジネス成長に寄与するコンテンツを生み出しています。
               </blockquote>
               <div className="mt-6 text-right">
-                <cite className="text-sm text-charcoal/60 tracking-wide cursive">— pinyonScript</cite>
+                <cite className="text-sm text-charcoal/60 tracking-wide">— 佐藤美咲</cite>
               </div>
             </div>
           </section>
