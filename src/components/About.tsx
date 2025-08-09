@@ -24,29 +24,31 @@ const About = () => {
     <div className="pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-light tracking-wider mb-6">ABOUT</h1>
+          {/* 全ページ共通の見出し：英語部分をゴシック体に */}
+          <h1 className="text-4xl md:text-5xl font-sans font-light tracking-wider mb-6">
+            ABOUT
+          </h1>
           <div className="w-24 h-0.5 bg-charcoal mx-auto opacity-50"></div>
         </div>
 
         <div className="space-y-16">
           {/* Profile Section */}
           <section>
-            <h2 className="text-2xl font-light tracking-wide mb-8 flex items-center">
+            <h2 className="text-2xl font-sans font-light tracking-wide mb-8 flex items-center">
               <span className="w-8 h-0.5 bg-charcoal mr-4"></span>
               PROFILE
             </h2>
-            
             <div className="grid md:grid-cols-3 gap-12">
               <div className="md:col-span-1">
                 <div className="w-full h-80 rounded-lg overflow-hidden">
-                  <img 
-                    src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                  <img
+                    src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800"
                     alt="佐藤美咲のプロフィール写真"
                     className="w-full h-full object-cover"
                   />
                 </div>
               </div>
-              
+
               <div className="md:col-span-2 space-y-6">
                 <div>
                   <h3 className="text-xl font-medium mb-3">佐藤美咲（Misaki Sato）</h3>
@@ -57,7 +59,7 @@ const About = () => {
                     コンテンツ制作を得意としています。
                   </p>
                 </div>
-                
+
                 <div>
                   <h4 className="font-medium mb-3">経歴</h4>
                   <div className="space-y-2 text-sm text-charcoal/70">
@@ -71,40 +73,41 @@ const About = () => {
             </div>
           </section>
 
-          {/* Achievements */}
+          {/* Achievements Section */}
           <section>
-            <h2 className="text-2xl font-light tracking-wide mb-8 flex items-center">
+            <h2 className="text-2xl font-sans font-light tracking-wide mb-8 flex items-center">
               <span className="w-8 h-0.5 bg-charcoal mr-4"></span>
               ACHIEVEMENTS
             </h2>
-            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {achievements.map((achievement, index) => {
                 const Icon = achievement.icon;
                 return (
                   <div key={index} className="text-center p-6 bg-white/50 rounded-lg">
                     <Icon className="w-8 h-8 mx-auto mb-3 text-charcoal/60" />
-                    <div className="text-2xl font-light text-charcoal mb-1">{achievement.value}</div>
-                    <div className="text-xs text-charcoal/60 tracking-wide">{achievement.label}</div>
+                    <div className="text-2xl font-light text-charcoal mb-1">
+                      {achievement.value}
+                    </div>
+                    <div className="text-xs text-charcoal/60 tracking-wide">
+                      {achievement.label}
+                    </div>
                   </div>
                 );
               })}
             </div>
           </section>
 
-          {/* Skills */}
+          {/* Skills Section */}
           <section>
-            <h2 className="text-2xl font-light tracking-wide mb-8 flex items-center">
+            <h2 className="text-2xl font-sans font-light tracking-wide mb-8 flex items-center">
               <span className="w-8 h-0.5 bg-charcoal mr-4"></span>
               SKILLS
             </h2>
-            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {skills.map((skill, index) => (
-                <div 
+                <div
                   key={index}
-                  className="px-4 py-3 bg-white/50 text-center text-sm tracking-wide rounded-lg
-                           hover:bg-white/80 transition-colors duration-300"
+                  className="px-4 py-3 bg-white/50 text-center text-sm tracking-wide rounded-lg hover:bg-white/80 transition-colors duration-300"
                 >
                   {skill}
                 </div>
@@ -112,13 +115,12 @@ const About = () => {
             </div>
           </section>
 
-          {/* Philosophy */}
+          {/* Writing Philosophy Section */}
           <section>
-            <h2 className="text-2xl font-light tracking-wide mb-8 flex items-center">
+            <h2 className="text-2xl font-sans font-light tracking-wide mb-8 flex items-center">
               <span className="w-8 h-0.5 bg-charcoal mr-4"></span>
               WRITING PHILOSOPHY
             </h2>
-            
             <div className="bg-white/30 p-8 rounded-lg">
               <blockquote className="text-lg leading-relaxed text-charcoal/80 italic">
                 「文章は読者との対話である」という信念のもと、常に読み手の立場に立ったコンテンツ制作を心がけています。
