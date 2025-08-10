@@ -11,7 +11,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
   const [nextImageIndex, setNextImageIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // 背景スライド用（/public/images に存在しない場合は外部URLへ差し替えてOK）
+  // 背景スライド用（/public/images に存在しない場合は外部URLへ差し替えOK）
   const backgroundImages = [
     '/images/image1.jpg',
     '/images/image2.jpg',
@@ -35,6 +35,28 @@ const Hero = ({ onNavigate }: HeroProps) => {
 
     return () => clearInterval(interval);
   }, [backgroundImages.length, nextImageIndex]);
+
+  // ===== タイプライティング（ロゴをPinyon Scriptで）=====
+  const title = 'Ko-ChilLium';
+  const [typed, setTyped] = useState('');
+  const [cursorOn, setCursorOn] = useState(true);
+
+  useEffect(() => {
+    let i = 0;
+    const typeSpeed = 110; // 1文字あたりの速度
+    const typeId = setInterval(() => {
+      i++;
+      setTyped(title.slice(0, i));
+      if (i >= title.length) clearInterval(typeId);
+    }, typeSpeed);
+
+    const cursorId = setInterval(() => setCursorOn((v) => !v), 500);
+
+    return () => {
+      clearInterval(typeId);
+      clearInterval(cursorId);
+    };
+  }, []);
 
   const featuredWorks = [
     {
@@ -83,7 +105,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
               className="w-full h-full object-cover"
               onError={(e) => {
                 // ローカル画像が無い場合に灰色化を避ける
-                e.currentTarget.style.display = 'none';
+                (e.currentTarget as HTMLImageElement).style.display = 'none';
               }}
             />
           </div>
@@ -97,17 +119,25 @@ const Hero = ({ onNavigate }: HeroProps) => {
               alt={`Background ${nextImageIndex + 1}`}
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.currentTarget.style.display = 'none';
+                (e.currentTarget as HTMLImageElement).style.display = 'none';
               }}
             />
           </div>
         </div>
 
-        {/* Content */}
+        {/* Content（タイトルはタイプライティング＋Pinyon Script） */}
         <div className="text-center max-w-4xl mx-auto relative z-10 p-12 bg-cream/90 backdrop-blur-sm rounded-2xl">
-          {/* ロゴだけ筆記体（index.css の .logo-font もしくは .pinyon-script を適用） */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider mb-6 leading-tight text-charcoal logo-font">
-            Ko-ChilLium
+          <h1
+            className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider mb-6 leading-tight text-charcoal logo-font"
+            aria-label="Ko-ChilLium"
+          >
+            {typed}
+            <span
+              aria-hidden="true"
+              className={`inline-block w-[0.5ch] ml-1 align-baseline ${cursorOn ? 'opacity-80' : 'opacity-0'}`}
+            >
+              |
+            </span>
           </h1>
           <p className="text-xl md:text-2xl text-charcoal/70 tracking-wide font-serif">
             Misaki Sato
