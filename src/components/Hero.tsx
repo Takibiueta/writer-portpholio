@@ -15,9 +15,6 @@ const Hero = () => {
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider mb-6 leading-tight text-charcoal logo-font">
           Ko-ChilLium
         </h1>
-        <p className="text-lg md:text-xl mb-8 text-white">
-          高知の魅力をあなたに
-        </p>
         <Link
           to="about"
           smooth={true}
