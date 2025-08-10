@@ -36,10 +36,9 @@ const Hero = ({ onNavigate }: HeroProps) => {
     return () => clearInterval(interval);
   }, [backgroundImages.length, nextImageIndex]);
 
-  // ===== タイプライティング（ロゴをPinyon Scriptで）=====
+  // ===== タイプライティング（カーソルは表示しない） =====
   const title = 'Ko-ChilLium';
   const [typed, setTyped] = useState('');
-  const [cursorOn, setCursorOn] = useState(true);
 
   useEffect(() => {
     let i = 0;
@@ -49,13 +48,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
       setTyped(title.slice(0, i));
       if (i >= title.length) clearInterval(typeId);
     }, typeSpeed);
-
-    const cursorId = setInterval(() => setCursorOn((v) => !v), 500);
-
-    return () => {
-      clearInterval(typeId);
-      clearInterval(cursorId);
-    };
+    return () => clearInterval(typeId);
   }, []);
 
   const featuredWorks = [
@@ -104,7 +97,6 @@ const Hero = ({ onNavigate }: HeroProps) => {
               alt={`Background ${currentImageIndex + 1}`}
               className="w-full h-full object-cover"
               onError={(e) => {
-                // ローカル画像が無い場合に灰色化を避ける
                 (e.currentTarget as HTMLImageElement).style.display = 'none';
               }}
             />
@@ -132,12 +124,6 @@ const Hero = ({ onNavigate }: HeroProps) => {
             aria-label="Ko-ChilLium"
           >
             {typed}
-            <span
-              aria-hidden="true"
-              className={`inline-block w-[0.5ch] ml-1 align-baseline ${cursorOn ? 'opacity-80' : 'opacity-0'}`}
-            >
-              |
-            </span>
           </h1>
           <p className="text-xl md:text-2xl text-charcoal/70 tracking-wide font-serif">
             Misaki Sato
